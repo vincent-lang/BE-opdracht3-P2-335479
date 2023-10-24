@@ -16,9 +16,6 @@
     <h3>
         <a href="{{route('instructeur.addPage', [$instructeurs[0]->Id])}}">Toevoegen voertuig</a>
     </h3>
-    <h3>
-        <a href="{{route('instructeur.allPage', [$instructeurs[0]->Id])}}">alle voertuigen</a>
-    </h3>
     <div>
         @if(session()->has('succes'))
         <div>

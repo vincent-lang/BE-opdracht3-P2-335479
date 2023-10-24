@@ -36,7 +36,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{{route('instructeur.editPageAll', [$instructeurs->Id, $row->Id])}}">
+                    <a href="{{route('instructeur.editPage', [$instructeurs->Id, $row->Id])}}">
                         <img class="small-img" src="/img/wijzig.png" alt="wijzig.png">
                     </a>
                 </td>

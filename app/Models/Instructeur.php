@@ -10,6 +10,10 @@ class Instructeur extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'IsActief'
+    ];
+
     public function scopeIndexGegevens(Builder $information): void
     {
         $information

@@ -27,11 +27,3 @@ Route::get('/instructeur/{instructeur}/{row}/editPage', [gegevensController::cla
 Route::put('/instructeur/{instructeur}/{row}/update', [gegevensController::class, 'update'])->name('instructeur.update');
 
 Route::get('/instructeur/{instructeur}/{row}/delete', [gegevensController::class, 'delete'])->name('instructeur.delete');
-
-Route::get('/instructeur/{instructeur}/{row}/editPageAll', [gegevensController::class, 'editAll'])->name('instructeur.editPageAll');
-
-Route::put('/instructeur/{instructeur}/{row}/updateAll', [gegevensController::class, 'updateAll'])->name('instructeur.updateAll');
-
-Route::get('/instructeur/{instructeur}/allPage', [gegevensController::class, 'allPage'])->name('instructeur.allPage');
-
-Route::get('/instructeur/{instructeur}/{row}/deleteAllPage', [gegevensController::class, 'deleteAllPage'])->name('instructeur.deleteAllPage');
