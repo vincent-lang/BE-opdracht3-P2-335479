@@ -35,11 +35,6 @@
                         <img src="/img/add.png" alt="add.png">
                     </a>
                 </td>
-                <td>
-                    <a href="{{route('instructeur.editPage', [$instructeurs->Id, $row->Id])}}">
-                        <img class="small-img" src="/img/wijzig.png" alt="wijzig.png">
-                    </a>
-                </td>
             </tr>
             @endforeach
         </tbody>
