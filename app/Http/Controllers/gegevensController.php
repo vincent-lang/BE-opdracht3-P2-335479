@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\VoertuigInstructeur;
 use App\Models\Instructeur;
+use App\Models\save;
 use App\Models\TypeVoertuig;
 use App\Models\Voertuig;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,14 @@ class gegevensController extends Controller
         $DatumAangemaakt = date('y-m-d h:i:s');
         $DatumGewijzigd = date('y-m-d h:i:s');
         $data = VoertuigInstructeur::insert(array(
+            'VoertuigId' => $voertuigId,
+            'InstructeurId' => $instructeurId,
+            'DatumToekenning' => $DatumToekenning,
+            'DatumAangemaakt' => $DatumAangemaakt,
+            'DatumGewijzigd' => $DatumGewijzigd
+        ));
+
+        $data = save::insert(array(
             'VoertuigId' => $voertuigId,
             'InstructeurId' => $instructeurId,
             'DatumToekenning' => $DatumToekenning,
@@ -93,7 +102,55 @@ class gegevensController extends Controller
         $voertuigId = $row;
 
         DB::table('voertuig_instructeurs')->where('VoertuigId', $voertuigId)->delete();
+        DB::table('save')->where('VoertuigId', $voertuigId)->delete();
 
         return redirect(route('instructeur.list', [$instructeurId]))->with('succes', 'Het door u geselecteerde voertuig is verwijderd');
+    }
+
+    public function notActive(Instructeur $instructeur)
+    {
+        $instructeurId = $instructeur->Id;
+
+        $activeInfo = DB::table('instructeurs')->select('IsActief')->where('Id', $instructeurId)->get();
+        if ($activeInfo[0]->IsActief == true) {
+            $active = array(
+                'IsActief' => 0
+            );
+
+            DB::table('instructeurs')->where('Id', $instructeurId)->update($active);
+
+            DB::table('voertuig_instructeurs')->where('InstructeurId', $instructeurId)->delete();
+        }
+        return redirect(route('instructeur.index'))->with('succes', 'Instructeur ' . $instructeur->Voornaam  . ' ' . $instructeur->Tussenvoegsel . ' ' . $instructeur->Achternaam . ' is ziek/met verlof gemeld');
+    }
+
+    public function active(Instructeur $instructeur)
+    {
+        $instructeurId = $instructeur->Id;
+
+        $activeInfo = DB::table('instructeurs')->select('IsActief')->where('Id', $instructeurId)->get();
+        if ($activeInfo[0]->IsActief == false) {
+            $active = array(
+                'IsActief' => 1
+            );
+            DB::table('instructeurs')->where('Id', $instructeurId)->update($active);
+
+
+            $saveVid = DB::table('saves')->select('VoertuigId')->where('InstructeurId', $instructeurId)->get();
+            $DatumToekenning = date('y-m-d');
+            $DatumAangemaakt = date('y-m-d h:i:s');
+            $DatumGewijzigd = date('y-m-d h:i:s');
+            foreach ($saveVid as $key) {
+                $voertuigGegevens = $key->VoertuigId;
+                $data = VoertuigInstructeur::insert(array(
+                    'VoertuigId' => $voertuigGegevens,
+                    'InstructeurId' => $instructeurId,
+                    'DatumToekenning' => $DatumToekenning,
+                    'DatumAangemaakt' => $DatumAangemaakt,
+                    'DatumGewijzigd' => $DatumGewijzigd
+                ));
+            }
+        }
+        return redirect(route('instructeur.index'));
     }
 }
