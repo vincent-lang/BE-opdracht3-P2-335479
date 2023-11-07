@@ -17,12 +17,13 @@ table,th,td {
 th,td {
     border: 0px;
     margin: 0;
-    padding-right: 5rem;
+    width: 5rem;
     border-bottom: 2px solid lightgrey;
 }
 
 th,td {
     border-right: 2px solid lightgrey;
+    text-align: center;
 }
 
 th:nth-child(6) {
