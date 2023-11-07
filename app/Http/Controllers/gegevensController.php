@@ -151,6 +151,6 @@ class gegevensController extends Controller
                 ));
             }
         }
-        return redirect(route('instructeur.index'));
+        return redirect(route('instructeur.index'))->with('succes', 'Instructeur ' . $instructeur->Voornaam  . ' ' . $instructeur->Tussenvoegsel . ' ' . $instructeur->Achternaam . ' is beter/terug van verlof gemeld');
     }
 }
