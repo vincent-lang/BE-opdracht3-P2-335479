@@ -19,7 +19,6 @@
             <th>Brandstof</th>
             <th>Rijbewijs categorie</th>
             <th>Toevoegen</th>
-            <th>Wijzigen</th>
         </thead>
         <tbody>
             @foreach($voertuigData as $row)
