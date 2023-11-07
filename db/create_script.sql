@@ -113,6 +113,28 @@ foreign key (InstructeurId) references Instructeurs(Id)
 ) engine=InnoDB;
 
 -- Step: 08
+-- Goal: drop, create table saves
+-- =============================================================================
+--  Version       Date:           Author:                     Description: 
+-- =============================================================================
+--  01            24-10-2023      Vincent van de Merwe            new          
+-- =============================================================================
+drop table if exists saves;
+create table if not exists saves (
+Id TINYINT UNSIGNED not null auto_increment,
+VoertuigId TINYINT UNSIGNED not null,
+InstructeurId TINYINT UNSIGNED not null,
+DatumToekenning date not null,
+IsActief bit not null default 1,
+OpMerkingen varchar(250) null default null,
+DatumAanGemaakt datetime(6) not null,
+DatumGewijzigd datetime(6) not null,
+CONSTRAINT      PK_VoertuigInstructeur_Id   PRIMARY KEY CLUSTERED(Id),
+foreign key (VoertuigId) references Voertuigs(Id),
+foreign key (InstructeurId) references Instructeurs(Id)
+) engine=InnoDB;
+
+-- Step: 09
 -- Goal: insert info into the table Instructeur
 -- =============================================================================
 --  Version       Date:           Author:                     Description: 
@@ -130,7 +152,7 @@ VALUES (null, 'Bert', 'Van', 'Sali', '06-48293823', '10-01-2023', '****', 1, NUL
 INSERT INTO instructeurs (Id,Voornaam,Tussenvoegsel,Achternaam,Mobiel,DatumInDienst,AantalSterren,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd) 
 VALUES (null, 'Mohammed', 'El', 'Yassidi', '06-34291234', '14-06-2010', '*****', 1, NULL, SYSDATE(6), SYSDATE(6));
 
--- Step: 09
+-- Step: 10
 -- Goal: insert info into the table TypeVoertuig
 -- =============================================================================
 --  Version       Date:           Author:                     Description: 
@@ -146,7 +168,7 @@ VALUES (null, 'Bus', 'D', 1, NULL, SYSDATE(6), SYSDATE(6));
 INSERT INTO type_voertuigs (Id,TypeVoertuig,Rijbewijscategorie,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd) 
 VALUES (null, 'Bromfiets', 'AM', 1, NULL, SYSDATE(6), SYSDATE(6));
 
--- Step: 10
+-- Step: 11
 -- Goal: insert info into the table Voertuig
 -- =============================================================================
 --  Version       Date:           Author:                     Description: 
@@ -178,7 +200,7 @@ VALUES (null, 'STP-12-U', 'Kymco', '2022-07-02', 'Benzine', 4, 1, NULL, SYSDATE(
 INSERT INTO voertuigs (Id,Kenteken,Type,Bouwjaar,Brandstof,TypeVoertuigId,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd) 
 VALUES (null, '45-SD-23', 'Renault', '2023-01-01', 'Diesel', 3, 1, NULL, SYSDATE(6), SYSDATE(6));
 
--- Step: 11
+-- Step: 12
 -- Goal: insert info into the table VoertuigInstructeur
 -- =============================================================================
 --  Version       Date:           Author:                     Description: 
@@ -196,4 +218,24 @@ VALUES (null, 4, 4, '2022-08-01', 1, NULL, SYSDATE(6), SYSDATE(6));
 INSERT INTO voertuig_instructeurs (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
 VALUES (null, 5, 1, '2019-08-30', 1, NULL, SYSDATE(6), SYSDATE(6));
 INSERT INTO voertuig_instructeurs (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 10, 5, '2020-02-02', 1, NULL, SYSDATE(6), SYSDATE(6));
+
+-- Step: 13
+-- Goal: insert info into the table saves
+-- =============================================================================
+--  Version       Date:           Author:                     Description: 
+-- =============================================================================
+--  01            24-10-2023      Vincent van de Merwe            new          
+-- =============================================================================
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 1, 5, '2017-06-18', 1, NULL, SYSDATE(6), SYSDATE(6));
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 3, 1, '2021-09-26', 1, NULL, SYSDATE(6), SYSDATE(6));
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 9, 1, '2021-09-27', 1, NULL, SYSDATE(6), SYSDATE(6));
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 4, 4, '2022-08-01', 1, NULL, SYSDATE(6), SYSDATE(6));
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
+VALUES (null, 5, 1, '2019-08-30', 1, NULL, SYSDATE(6), SYSDATE(6));
+INSERT INTO saves (Id,VoertuigId,InstructeurId,DatumToekenning,IsActief,Opmerkingen,DatumAangemaakt,DatumGewijzigd)
 VALUES (null, 10, 5, '2020-02-02', 1, NULL, SYSDATE(6), SYSDATE(6));
