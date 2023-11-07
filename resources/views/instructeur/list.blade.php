@@ -50,6 +50,7 @@
             <th>Rijbewijs categorie</th>
             <th>Wijzigen</th>
             <th>Verwijderen</th>
+            <th>Toegewezen</th>
         </thead>
         <tbody>
             @foreach ($voertuigData as $row)
@@ -68,6 +69,11 @@
                 <td>
                     <a href="{{route('instructeur.delete', [$instructeurs[0]->Id, $row->Id])}}">
                         <img class="small-img" src="/img/delete.png" alt="delete.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="{{route('instructeur.list', [$instructeurs[0]->Id])}}">
+                        <img class="small-img" src="/img/vinkje.png" alt="vinkje.png">
                     </a>
                 </td>
             </tr>
