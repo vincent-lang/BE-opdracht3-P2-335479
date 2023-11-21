@@ -11,6 +11,8 @@ use App\Models\TypeVoertuig;
 use App\Models\Voertuig;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class gegevensController extends Controller
 {
     public function index()
@@ -26,7 +28,9 @@ class gegevensController extends Controller
         $id = $instructeur->Id;
         $instructeurs = Instructeur::ListGegevens()->where('Id', '=', $id)->get();
         $voertuigData = Voertuig::ListVoertuigGegevens()->where('instructeurs.Id', '=', $id)->get();
-        return view('instructeur.list', compact('instructeurs', 'voertuigData'));
+
+        $addedData = DB::table('voertuig_instructeurs')->select('VoertuigId',  DB::raw('count(InstructeurId) as amount'))->groupBy('VoertuigId')->get();
+        return view('instructeur.list', compact('instructeurs', 'voertuigData', 'addedData'));
     }
 
     public function addPage(Instructeur $instructeur)
@@ -102,7 +106,7 @@ class gegevensController extends Controller
         $voertuigId = $row;
 
         DB::table('voertuig_instructeurs')->where('VoertuigId', $voertuigId)->delete();
-        DB::table('save')->where('VoertuigId', $voertuigId)->delete();
+        DB::table('saves')->where('VoertuigId', $voertuigId)->delete();
 
         return redirect(route('instructeur.list', [$instructeurId]))->with('succes', 'Het door u geselecteerde voertuig is verwijderd');
     }
@@ -152,5 +156,17 @@ class gegevensController extends Controller
             }
         }
         return redirect(route('instructeur.index'))->with('succes', 'Instructeur ' . $instructeur->Voornaam  . ' ' . $instructeur->Tussenvoegsel . ' ' . $instructeur->Achternaam . ' is beter/terug van verlof gemeld');
+    }
+
+    public function addedToSomeoneElse(Instructeur $instructeur, $row)
+    {
+        $id = $instructeur->Id;
+        $addedData = DB::table('Voertuig_instructeurs')->select('VoertuigId', 'InstructeurId')->where('InstructeurId', '!=', $id)->where('VoertuigId', '=', $row)->get();
+        if ($addedData->isEmpty()) {
+        } else {
+            DB::table('Voertuig_instructeurs')->select('VoertuigId', 'InstructeurId')->where('InstructeurId', '!=', $id)->where('VoertuigId', '=', $row)->delete();
+            DB::table('saves')->select('VoertuigId', 'InstructeurId')->where('InstructeurId', '!=', $id)->where('VoertuigId', '=', $row)->delete();
+            return redirect(route('instructeur.list', [$id]))->with('succes', 'Het geselecteerde voertuig is weer toegewezen aan ' . $instructeur->Voornaam  . ' ' . $instructeur->Tussenvoegsel . ' ' . $instructeur->Achternaam);
+        }
     }
 }

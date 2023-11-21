@@ -31,3 +31,5 @@ Route::get('/instructeur/{instructeur}/{row}/delete', [gegevensController::class
 Route::get('/instructeur/{instructeur}/notActive', [gegevensController::class, 'notActive'])->name('instructeur.notActive');
 
 Route::get('/instructeur/{instructeur}/active', [gegevensController::class, 'active'])->name('instructeur.active');
+
+Route::get('/instructeur/{instructeur}/{row}/else', [gegevensController::class, 'addedToSomeoneElse'])->name('instructeur.else');

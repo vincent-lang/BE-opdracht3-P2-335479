@@ -71,11 +71,21 @@
                         <img class="small-img" src="/img/delete.png" alt="delete.png">
                     </a>
                 </td>
+                @foreach($addedData as $test)
+                @if($test->VoertuigId == $row->Id)
+                @if($test->amount > 1)
                 <td>
-                    <a href="{{route('instructeur.list', [$instructeurs[0]->Id])}}">
-                        <img class="small-img" src="/img/vinkje.png" alt="vinkje.png">
+                    <a href="{{route('instructeur.else', [$instructeurs[0]->Id, $row->Id])}}">
+                        <img class="small-img" src="/img/kruisje.png" alt="kruisje.png">
                     </a>
                 </td>
+                @else
+                <td>
+                    <img class="small-img" src="/img/vinkje.png" alt="vinkje.png">
+                </td>
+                @endif
+                @endif
+                @endforeach
             </tr>
             @endforeach
         </tbody>
